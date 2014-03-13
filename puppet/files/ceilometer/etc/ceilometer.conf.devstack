@@ -1,0 +1,21 @@
+
+[DEFAULT]
+os_tenant_name = service
+os_password = password
+os_username = ceilometer
+policy_file = /etc/ceilometer/policy.json
+verbose = True
+notification_topics = notifications
+rabbit_password = password
+rabbit_host = localhost
+rpc_backend = ceilometer.openstack.common.rpc.impl_kombu
+
+[keystone_authtoken]
+signing_dir = /var/cache/ceilometer
+admin_tenant_name = service
+admin_password = password
+admin_user = ceilometer
+auth_protocol = http
+
+[database]
+connection = mysql://root:password@127.0.0.1/ceilometer?charset=utf8
