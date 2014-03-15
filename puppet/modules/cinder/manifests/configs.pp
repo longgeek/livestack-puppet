@@ -1,5 +1,8 @@
 class cinder::configs {
     file {
+        "/etc/logrotate.d/cinder":
+            source => 'puppet:///files/cinder/logrotate.d/cinder';
+
         "/etc/cinder/policy.json":
             source => 'puppet:///files/cinder/etc/policy.json';
 
