@@ -27,12 +27,13 @@ TEMPLATE_DEBUG = DEBUG
 #SESSION_COOKIE_SECURE = True
 
 # Overrides for OpenStack API versions. Use this setting to force the
-# OpenStack dashboard to use a specfic API version for a given service API.
+# OpenStack dashboard to use a specific API version for a given service API.
 # NOTE: The version should be formatted as it appears in the URL for the
 # service API. For example, The identity service APIs have inconsistent
 # use of the decimal point, so valid options would be "2.0" or "3".
 # OPENSTACK_API_VERSIONS = {
-#     "identity": 3
+#     "identity": 3,
+#     "volume": 2
 # }
 
 # Set this to True if running on multi-domain model. When this is enabled, it
@@ -44,7 +45,7 @@ TEMPLATE_DEBUG = DEBUG
 # OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'Default'
 
 # Set Console type:
-# valid options would be "AUTO", "VNC" or "SPICE"
+# valid options would be "AUTO", "VNC", "SPICE" or "RDP"
 # CONSOLE_TYPE = "AUTO"
 
 # Default OpenStack Dashboard configuration.
@@ -150,15 +151,23 @@ OPENSTACK_KEYSTONE_BACKEND = {
     'can_edit_role': True
 }
 
+#Setting this to True, will add a new "Retrieve Password" action on instance,
+#allowing Admin session password retrieval/decryption.
+#OPENSTACK_ENABLE_PASSWORD_RETRIEVE = False
+
+# The Xen Hypervisor has the ability to set the mount point for volumes
+# attached to instances (other Hypervisors currently do not). Setting
+# can_set_mount_point to True will add the option to set the mount point
+# from the UI.
 OPENSTACK_HYPERVISOR_FEATURES = {
-    'can_set_mount_point': True,
+    'can_set_mount_point': False,
+    'can_set_password': True,
 }
 
 # The OPENSTACK_NEUTRON_NETWORK settings can be used to enable optional
-# services provided by neutron. Options currenly available are load
+# services provided by neutron. Options currently available are load
 # balancer service, security groups, quotas, VPN service.
 OPENSTACK_NEUTRON_NETWORK = {
-    'enable_security_group': True,
     'enable_lb': True,
     'enable_firewall': True,
     'enable_quotas': True,
@@ -188,6 +197,17 @@ OPENSTACK_NEUTRON_NETWORK = {
 #     ]
 # }
 
+# The IMAGE_CUSTOM_PROPERTY_TITLES settings is used to customize the titles for
+# image custom property attributes that appear on image detail pages.
+IMAGE_CUSTOM_PROPERTY_TITLES = {
+    "architecture": _("Architecture"),
+    "kernel_id": _("Kernel ID"),
+    "ramdisk_id": _("Ramdisk ID"),
+    "image_state": _("Euca2ools state"),
+    "project_id": _("Project ID"),
+    "image_type": _("Image Type")
+}
+
 # OPENSTACK_ENDPOINT_TYPE specifies the endpoint type to use for the endpoints
 # in the Keystone service catalog. Use this setting when Horizon is running
 # external to the OpenStack environment. The default is 'publicURL'.
@@ -211,11 +231,14 @@ API_RESULT_PAGE_SIZE = 20
 TIME_ZONE = "UTC"
 
 # When launching an instance, the menu of available flavors is
-# sorted by RAM usage, ascending.  Provide a callback method here
-# (and/or a flag for reverse sort) for the sorted() method if you'd
-# like a different behaviour.  For more info, see
+# sorted by RAM usage, ascending. If you would like a different sort order,
+# you can provide another flavor attribute as sorting key. Alternatively, you
+# can provide a custom callback method to use for sorting. You can also provide
+# a flag for reverse sort. For more info, see
 # http://docs.python.org/2/library/functions.html#sorted
 # CREATE_INSTANCE_FLAVOR_SORT = {
+#     'key': 'name',
+#      # or
 #     'key': my_awesome_callback_method,
 #     'reverse': False,
 # }
@@ -346,6 +369,8 @@ LOGGING = {
     }
 }
 
+# 'direction' should not be specified for all_tcp/udp/icmp.
+# It is specified in the form.
 SECURITY_GROUP_RULES = {
     'all_tcp': {
         'name': 'ALL TCP',
@@ -449,4 +474,15 @@ SECURITY_GROUP_RULES = {
         'from_port': '3389',
         'to_port': '3389',
     },
+}
+
+FLAVOR_EXTRA_KEYS = {
+    'flavor_keys': [
+        ('quota:read_bytes_sec', _('Quota: Read bytes')),
+        ('quota:write_bytes_sec', _('Quota: Write bytes')),
+        ('quota:cpu_quota', _('Quota: CPU')),
+        ('quota:cpu_period', _('Quota: CPU period')),
+        ('quota:inbound_average', _('Quota: Inbound average')),
+        ('quota:outbound_average', _('Quota: Outbound average')),
+    ]
 }

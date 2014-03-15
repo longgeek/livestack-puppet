@@ -6,10 +6,13 @@
 ietadm: CommandFilter, ietadm, root
 tgtadm: CommandFilter, tgtadm, root
 tgt-admin: CommandFilter, tgt-admin, root
-rtstool: CommandFilter, rtstool, root
+cinder-rtstool: CommandFilter, cinder-rtstool, root
 
-# cinder/volume/driver.py: 'vgs', '--noheadings', '-o', 'name'
-vgs: CommandFilter, vgs, root
+# LVM related show commands
+pvs: EnvFilter, env, root, LC_ALL=C, pvs
+vgs: EnvFilter, env, root, LC_ALL=C, vgs
+lvs: EnvFilter, env, root, LC_ALL=C, lvs
+lvdisplay: EnvFilter, env, root, LC_ALL=C, lvdisplay
 
 # cinder/volume/driver.py: 'lvcreate', '-L', sizestr, '-n', volume_name,..
 # cinder/volume/driver.py: 'lvcreate', '-L', ...
@@ -20,9 +23,6 @@ dd: CommandFilter, dd, root
 
 # cinder/volume/driver.py: 'lvremove', '-f', %s/%s % ...
 lvremove: CommandFilter, lvremove, root
-
-# cinder/volume/driver.py: 'lvdisplay', '--noheading', '-C', '-o', 'Attr',..
-lvdisplay: CommandFilter, lvdisplay, root
 
 # cinder/volume/driver.py: 'lvrename', '%(vg)s', '%(orig)s' '(new)s'...
 lvrename: CommandFilter, lvrename, root
@@ -47,8 +47,11 @@ chown: CommandFilter, chown, root
 # cinder/volume/driver.py
 dmsetup: CommandFilter, dmsetup, root
 ln: CommandFilter, ln, root
-qemu-img: CommandFilter, qemu-img, root
-env: CommandFilter, env, root
+
+# cinder/image/image_utils.py
+qemu-img: EnvFilter, env, root, LC_ALL=C, qemu-img
+qemu-img_convert: CommandFilter, qemu-img, root
+
 udevadm: CommandFilter, udevadm, root
 
 # cinder/volume/driver.py: utils.read_file_as_root()
@@ -62,11 +65,12 @@ du: CommandFilter, du, root
 truncate: CommandFilter, truncate, root
 chmod: CommandFilter, chmod, root
 rm: CommandFilter, rm, root
-lvs: CommandFilter, lvs, root
-find: CommandFilter, find, root
+
+# cinder/volume/drivers/netapp/nfs.py:
+netapp_nfs_find: RegExpFilter, find, root, find, ^[/]*([^/\0]+(/+)?)*$, -maxdepth, \d+, -name, img-cache.*, -amin, \+\d+
 
 # cinder/volume/drivers/glusterfs.py
-mv: CommandFilter, mv, root
+chgrp: CommandFilter, chgrp, root
 
 # cinder/volumes/drivers/hds/hds.py:
 hus-cmd: CommandFilter, hus-cmd, root
@@ -81,15 +85,20 @@ systool: CommandFilter, systool, root
 # cinder/volume/drivers/block_device.py
 blockdev: CommandFilter, blockdev, root
 
-# cinder/volume/drivers/gpfs.py
+# cinder/volume/drivers/ibm/gpfs.py
+mv: CommandFilter, mv, root
 mmgetstate: CommandFilter, /usr/lpp/mmfs/bin/mmgetstate, root
 mmclone: CommandFilter, /usr/lpp/mmfs/bin/mmclone, root
 mmlsattr: CommandFilter, /usr/lpp/mmfs/bin/mmlsattr, root
 mmchattr: CommandFilter, /usr/lpp/mmfs/bin/mmchattr, root
 mmlsconfig: CommandFilter, /usr/lpp/mmfs/bin/mmlsconfig, root
 mmlsfs: CommandFilter, /usr/lpp/mmfs/bin/mmlsfs, root
-find: CommandFilter, find, root
+mmlspool: CommandFilter, /usr/lpp/mmfs/bin/mmlspool, root
 mkfs: CommandFilter, mkfs, root
+
+# cinder/volume/drivers/ibm/gpfs.py
+# cinder/volume/drivers/ibm/ibmnas.py
+find_maxdepth_inum: RegExpFilter, find, root, find, ^[/]*([^/\0]+(/+)?)*$, -maxdepth, \d+, -inum, \d+
 
 # cinder/brick/initiator/connector.py:
 aoe-revalidate: CommandFilter, aoe-revalidate, root
