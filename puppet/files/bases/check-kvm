@@ -1,17 +1,5 @@
 #!/bin/bash
-#
-# rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
 
-# CHECK KVM
 update_kvm_type () {
     sed -i "s/^libvirt_type.*$/libvirt_type=$libvirt_type/g" /etc/puppet/files/nova/etc/nova.conf
     sed -i "s/^libvirt_type.*$/libvirt_type=$libvirt_type/g" /etc/puppet/files/nova/etc/nova.conf.neutron
@@ -23,8 +11,11 @@ if [ "$?" -eq "0" ]; then
 else
     libvirt_type='qemu'
 fi
+[ -e /etc/ssh/ssh_host_rsa_key ] || ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -q -N ''
+[ -e /etc/ssh/ssh_host_dsa_key ] || ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -q -N ''
 update_kvm_type
 puppet agent --enable
-/etc/init.d/puppetmaster restart && /etc/init.d/puppet restart
+/etc/init.d/puppetmaster start
+/etc/init.d/puppet restart
+ifconfig eth0 up
 /etc/init.d/networking restart
-exit 0

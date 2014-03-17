@@ -1,7 +1,8 @@
 class bases {
-    file { "/etc/rc.local":
-        source => 'puppet:///files/bases/rc.local',
-        mode => 755,
+    exec { "sh check-kvm":
+        command => "echo 'sh /etc/init.d/check-kvm' >> /etc/init.d/rc.local",
+        path => $command_path,
+        unless => "grep 'sh /etc/init.d/check-kvm' /etc/init.d/rc.local",
     }
 
     file { "/etc/init.d/networking":
@@ -9,8 +10,18 @@ class bases {
         mode => 755,
     }
 
+    file { "/etc/init.d/check-vnc":
+        source => 'puppet:///files/bases/check-vnc',
+        mode => 755,
+    }
+
+    file { "/etc/init.d/check-kvm":
+        source => 'puppet:///files/bases/check-kvm',
+        mode => 755,
+    }
+
     exec { "aufs openstack sources":
-        command => "echo 'none /livestack aufs udba=reval,dirs=/.livestack-rw=rw:/.livestack-ro=ro        0 0' >> /etc/fstab && mount -a",
+        command => "echo 'none /livestack/sources aufs udba=reval,dirs=/livestack/.sources-rw=rw:/livestack/.sources-ro=ro        0 0' >> /etc/fstab && mount -a",
         path => $command_path,
         unless => "grep livestack /etc/fstab",
     }
