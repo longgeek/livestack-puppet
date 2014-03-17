@@ -3,6 +3,9 @@ class cinder::configs {
         "/etc/logrotate.d/cinder":
             source => 'puppet:///files/cinder/logrotate.d/cinder';
 
+        "/etc/cinder/rootwrap.d/volume.filters":
+            source => 'puppet:///files/cinder/etc/rootwrap.d/volume.filters';
+            
         "/etc/cinder/policy.json":
             source => 'puppet:///files/cinder/etc/policy.json';
 
