@@ -1,17 +1,10 @@
 class cinder::iscsi {
-    package { ["iscsitarget", "open-iscsi", "iscsitarget-dkms", "lvm2"]:
+    package { ["tgt", "open-iscsi", "lvm2"]:
         ensure => installed,
-        notify => Exec["enable iscsitarget"],
+        notify => Service["tgt", "open-iscsi"],
     }
 
-    exec { "enable iscsitarget":
-        command => "sed -i 's/false/true/g' /etc/default/iscsitarget",
-        path => $command_path,
-        onlyif => 'grep false /etc/default/iscsitarget',
-        notify => Service["iscsitarget", "open-iscsi"],
-    }
-
-    service { ["iscsitarget", "open-iscsi"]:
+    service { ["tgt", "open-iscsi"]:
         ensure => running,
         enable => true,
         hasstatus => true,
