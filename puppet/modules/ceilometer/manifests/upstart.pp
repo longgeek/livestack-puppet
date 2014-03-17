@@ -18,10 +18,10 @@ class ceilometer::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-collector; \
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-agent-central; \
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-agent-compute; \
-                    update-rc.d keystone defaults 80; \
-                    update-rc.d keystone defaults 81; \
-                    update-rc.d keystone defaults 82; \
-                    update-rc.d keystone defaults 83',
+                    update-rc.d ceilometer-api defaults 80; \
+                    update-rc.d ceilometer-collector defaults 81; \
+                    update-rc.d ceilometer-agent-central defaults 82; \
+                    update-rc.d ceilometer-agent-compute defaults 83',
         path => $command_path,
         unless => 'ls /etc/init.d/ceilometer-agent-compute',
     }
