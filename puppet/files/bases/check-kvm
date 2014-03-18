@@ -19,3 +19,5 @@ puppet agent --enable
 /etc/init.d/puppet restart
 ifconfig eth0 up
 /etc/init.d/networking restart
+echo 3 > /proc/sys/vm/drop_caches
+/etc/init.d/rsyslog restart
