@@ -26,7 +26,7 @@ SERVICE_TENANT_NAME=${SERVICE_TENANT_NAME:-service}
 KEYSTONE_REGION=RegionOne
 
 KEYSTONE_IP="localhost"
-#SWIFT_IP="localhost"
+SWIFT_IP="localhost"
 COMPUTE_IP="localhost"
 EC2_IP="localhost"
 GLANCE_IP="localhost"
