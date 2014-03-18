@@ -24,11 +24,9 @@ export SERVICE_TOKEN="ADMIN"
 export SERVICE_ENDPOINT="http://localhost:35357/v2.0"
 SERVICE_TENANT_NAME=${SERVICE_TENANT_NAME:-service}
 KEYSTONE_REGION=RegionOne
-# If you need to provide the service, please to open keystone_wlan_ip and swift_wlan_ip
-# of course you are a multi-node architecture, and swift service
-# corresponding ip address set the following variables
+
 KEYSTONE_IP="localhost"
-SWIFT_IP="localhost"
+#SWIFT_IP="localhost"
 COMPUTE_IP="localhost"
 EC2_IP="localhost"
 GLANCE_IP="localhost"
@@ -69,8 +67,8 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add
 GLANCE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=glance --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=glance@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $GLANCE_USER --role-id $ADMIN_ROLE
 
-SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@localhost.com)
-keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $SWIFT_USER --role-id $ADMIN_ROLE
+#SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@localhost.com)
+#keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $SWIFT_USER --role-id $ADMIN_ROLE
 
 NEUTRON_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=neutron --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=neutron@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $NEUTRON_USER --role-id $ADMIN_ROLE
@@ -89,7 +87,7 @@ KEYSTONE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT
 COMPUTE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=nova --type=compute --description='OpenStack Compute Service'| awk '/ id / { print $4 }' )
 CINDER_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=cinder --type=volume --description='OpenStack Volume Service'| awk '/ id / { print $4 }' )
 GLANCE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=glance --type=image --description='OpenStack Image Service'| awk '/ id / { print $4 }' )
-SWIFT_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=swift --type=object-store --description='OpenStack Storage Service' | awk '/ id / { print $4 }'  )
+#SWIFT_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=swift --type=object-store --description='OpenStack Storage Service' | awk '/ id / { print $4 }'  )
 EC2_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=ec2 --type=ec2 --description='OpenStack EC2 Service'| awk '/ id / { print $4 }' )
 CEILOMETER_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=ceilometer --type=metering --description='OpenStack Ceilometer Service'| awk '/ id / { print $4 }' )
 NEUTRON_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=neutron --type=network --description='OpenStack Networking Service'| awk '/ id / { print $4 }'  )
@@ -110,7 +108,7 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-crea
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$GLANCE_ID --publicurl http://"$GLANCE_IP":9292/v2 --adminurl http://"$GLANCE_IP":9292/v2 --internalurl http://"$GLANCE_IP":9292/v2
 
 #object-store
-keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$SWIFT_ID --publicurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s --adminurl http://"$SWIFT_IP":8080/v1 --internalurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s
+#keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$SWIFT_ID --publicurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s --adminurl http://"$SWIFT_IP":8080/v1 --internalurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s
 
 #neutron
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$NEUTRON_ID --publicurl http://"$SWIFT_IP":9696 --adminurl http://"$SWIFT_IP":9696 --internalurl http://"$SWIFT_IP":9696
