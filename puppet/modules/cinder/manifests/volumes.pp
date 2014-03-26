@@ -20,7 +20,7 @@ class cinder::volumes {
                     pvcreate /dev/loop7 && \
                     vgcreate livestack-volumes /dev/loop7',
         path => $command_path,
-        unless => 'vgs | grep livestack-volumes && ls /dev/loop7p1',
+        unless => 'vgs | grep livestack-volumes',
         notify => Class["cinder::services"],
     }
 }
