@@ -1,7 +1,6 @@
 #!/bin/bash
 
 update_kvm_type () {
-    sed -i "s/^virt_type.*$/virt_type=$virt_type/g" /etc/puppet/files/nova/etc/nova.conf
     sed -i "s/^virt_type.*$/virt_type=$virt_type/g" /etc/puppet/files/nova/etc/nova.conf.neutron
 }
 kvm-ok > /dev/null 2>&1
@@ -15,9 +14,6 @@ fi
 [ -e /etc/ssh/ssh_host_dsa_key ] || ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -q -N ''
 update_kvm_type
 puppet agent --enable
-/etc/init.d/puppetmaster start
-/etc/init.d/puppet restart
 ifconfig eth0 up
-/etc/init.d/networking restart
+service networking restart
 echo 3 > /proc/sys/vm/drop_caches
-/etc/init.d/rsyslog restart

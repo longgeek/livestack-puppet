@@ -1,5 +1,5 @@
 class nova::packages {
-    package { ["libvirt-bin", "python-libvirt", "qemu-kvm", "qemu-utils", "kvm", "dnsmasq-utils", "python-m2crypto"]:
+    package { ["libvirt-bin", "python-libvirt", "qemu-kvm", "kvm", "qemu-utils", "dnsmasq-utils", "python-m2crypto"]:
         ensure => installed,
     }
 

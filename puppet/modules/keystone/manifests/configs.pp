@@ -20,7 +20,6 @@ class keystone::configs {
 
         "/etc/keystone/keystone.conf":
             source => "puppet:///files/keystone/etc/keystone.conf",
-            #notify => [Class['keystone::tables'], Class['keystone::service']],
             notify => Class['keystone::tables', 'keystone::services'],
     }
 }

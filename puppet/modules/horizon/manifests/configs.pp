@@ -30,8 +30,14 @@ class horizon::configs {
         notify => Class["horizon::services"],
     }
 
-    file { "/etc/apache2/conf.d/horizon.conf":
+    file { "/etc/apache2/sites-available/horizon.conf":
         content => template("horizon.conf.erb"),
+        notify => Class["horizon::services"],
+    }
+
+    file { "/etc/apache2/sites-enabled/horizon.conf":
+        ensure => link,
+        target => "/etc/apache2/sites-available/horizon.conf",
         notify => Class["horizon::services"],
     }
 }

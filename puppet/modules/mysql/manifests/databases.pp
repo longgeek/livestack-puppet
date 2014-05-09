@@ -63,10 +63,10 @@ class mysql::databases {
         notify => Class["mysql::services"],
     }
 
-#    exec { "create trove db":
-#        command => "mysql -uroot -p$mysql_root_pass -e \"create database trove default character set utf8;\" && \
-#                    mysql -uroot -p$mysql_root_pass -e \"grant all on trove.* to 'trove'@'localhost' identified by 'trove';\"",
-#        path => $command_path,
-#        unless => "mysqlshow -uroot -p$mysql_root_pass | grep trove",
-#    }
+    exec { "create trove db":
+        command => "mysql -uroot -p$mysql_root_pass -e \"create database trove default character set utf8;\" && \
+                    mysql -uroot -p$mysql_root_pass -e \"grant all on trove.* to 'trove'@'localhost' identified by 'trove';\"",
+        path => $command_path,
+        unless => "mysqlshow -uroot -p$mysql_root_pass | grep trove",
+    }
 }

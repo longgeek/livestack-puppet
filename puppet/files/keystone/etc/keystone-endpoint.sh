@@ -24,7 +24,9 @@ export SERVICE_TOKEN="ADMIN"
 export SERVICE_ENDPOINT="http://localhost:35357/v2.0"
 SERVICE_TENANT_NAME=${SERVICE_TENANT_NAME:-service}
 KEYSTONE_REGION=RegionOne
-
+# If you need to provide the service, please to open keystone_wlan_ip and swift_wlan_ip
+# of course you are a multi-node architecture, and swift service
+# corresponding ip address set the following variables
 KEYSTONE_IP="localhost"
 SWIFT_IP="localhost"
 COMPUTE_IP="localhost"
@@ -33,6 +35,7 @@ GLANCE_IP="localhost"
 VOLUME_IP="localhost"
 CEILOMETER_IP="localhost"
 HEAT_IP="localhost"
+TROVE_IP="localhost"
 
 get_id () {
     echo `$@ | awk '/ id / { print $4 }'`
@@ -42,6 +45,7 @@ get_id () {
 ADMIN_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=admin)
 SERVICE_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=$SERVICE_TENANT_NAME)
 DEMO_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=demo)
+TROVE_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=trove)
 #INVIS_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=invisible_to_admin)
 
 # Create Users
@@ -67,8 +71,8 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add
 GLANCE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=glance --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=glance@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $GLANCE_USER --role-id $ADMIN_ROLE
 
-#SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@localhost.com)
-#keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $SWIFT_USER --role-id $ADMIN_ROLE
+SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@localhost.com)
+keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $SWIFT_USER --role-id $ADMIN_ROLE
 
 NEUTRON_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=neutron --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=neutron@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $NEUTRON_USER --role-id $ADMIN_ROLE
@@ -82,17 +86,21 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add
 HEAT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=heat --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=heat@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $HEAT_USER --role-id $ADMIN_ROLE
 
+TROVE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=trove --pass="$SERVICE_PASSWORD" --tenant-id $TROVE_TENANT --email=trove@localhost.com)
+keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $TROVE_USER --role-id $ADMIN_ROLE
+
 ## Create Service
 KEYSTONE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name keystone --type identity --description 'OpenStack Identity Service'| awk '/ id / { print $4 }' )
 COMPUTE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=nova --type=compute --description='OpenStack Compute Service'| awk '/ id / { print $4 }' )
 CINDER_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=cinder --type=volume --description='OpenStack Volume Service'| awk '/ id / { print $4 }' )
 GLANCE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=glance --type=image --description='OpenStack Image Service'| awk '/ id / { print $4 }' )
-#SWIFT_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=swift --type=object-store --description='OpenStack Storage Service' | awk '/ id / { print $4 }'  )
+SWIFT_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=swift --type=object-store --description='OpenStack Storage Service' | awk '/ id / { print $4 }'  )
 EC2_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=ec2 --type=ec2 --description='OpenStack EC2 Service'| awk '/ id / { print $4 }' )
 CEILOMETER_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=ceilometer --type=metering --description='OpenStack Ceilometer Service'| awk '/ id / { print $4 }' )
 NEUTRON_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=neutron --type=network --description='OpenStack Networking Service'| awk '/ id / { print $4 }'  )
 HEAT_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=heat --type=orchestration --description='Heat API'| awk '/ id / { print $4 }'  )
 HEAT_CFN_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=heat-cfn --type=cloudformation --description='Heat CloudFormation API'| awk '/ id / { print $4 }'  )
+TROVE_ID=$(keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT service-create --name=trove --type=database --description='OpenStack Trove Service'| awk '/ id / { print $4 }'  )
 
 ## Create Endpoint
 #identity
@@ -108,7 +116,7 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-crea
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$GLANCE_ID --publicurl http://"$GLANCE_IP":9292/v2 --adminurl http://"$GLANCE_IP":9292/v2 --internalurl http://"$GLANCE_IP":9292/v2
 
 #object-store
-#keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$SWIFT_ID --publicurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s --adminurl http://"$SWIFT_IP":8080/v1 --internalurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s
+keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$SWIFT_ID --publicurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s --adminurl http://"$SWIFT_IP":8080/v1 --internalurl http://"$SWIFT_IP":8080/v1/AUTH_\$\(tenant_id\)s
 
 #neutron
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$NEUTRON_ID --publicurl http://"$SWIFT_IP":9696 --adminurl http://"$SWIFT_IP":9696 --internalurl http://"$SWIFT_IP":9696
@@ -124,3 +132,6 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-crea
 
 #heat-cfn
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$HEAT_CFN_ID --publicurl http://"$HEAT_IP":8000/v1 --adminurl http://"$HEAT_IP":8000/v1 --internalurl http://"$HEAT_IP":8000/v1
+
+#trove
+keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT endpoint-create --region $KEYSTONE_REGION --service-id=$TROVE_ID --publicurl http://"$TROVE_IP":8779/v1.0/\$\(tenant_id\)s --adminurl http://"$TROVE_IP":8779/v1.0/\$\(tenant_id\)s --internalurl http://"$TROVE_IP":8779/v1.0/\$\(tenant_id\)s

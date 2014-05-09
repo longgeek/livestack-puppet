@@ -104,7 +104,9 @@ SECRET_KEY = secret_key.generate_or_read_from_file(os.path.join(LOCAL_PATH, '.se
 
 CACHES = {
     'default': {
-        'BACKEND' : 'django.core.cache.backends.locmem.LocMemCache'
+#        'BACKEND' : 'django.core.cache.backends.locmem.LocMemCache'
+        'BACKEND' : 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION' : '127.0.0.1:11211',
     }
 }
 
@@ -126,9 +128,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ]
 
 OPENSTACK_HOST = "127.0.0.1"
-#SAVANNA_URL = 'http://%s:8386/v1.0' % OPENSTACK_HOST
 OPENSTACK_KEYSTONE_URL = "http://%s:5000/v2.0" % OPENSTACK_HOST
-OPENSTACK_KEYSTONE_DEFAULT_ROLE = "Member"
+OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
 
 # Disable SSL certificate checks (useful for self-signed certificates):
 # OPENSTACK_SSL_NO_VERIFY = True
@@ -161,13 +162,14 @@ OPENSTACK_KEYSTONE_BACKEND = {
 # from the UI.
 OPENSTACK_HYPERVISOR_FEATURES = {
     'can_set_mount_point': False,
-    'can_set_password': True,
+    'can_set_password': False,
 }
 
 # The OPENSTACK_NEUTRON_NETWORK settings can be used to enable optional
 # services provided by neutron. Options currently available are load
 # balancer service, security groups, quotas, VPN service.
 OPENSTACK_NEUTRON_NETWORK = {
+    'enable_security_group': True,
     'enable_lb': True,
     'enable_firewall': True,
     'enable_quotas': True,

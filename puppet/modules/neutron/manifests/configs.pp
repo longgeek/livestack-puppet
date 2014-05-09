@@ -19,7 +19,7 @@ class neutron::configs {
     }
 
     exec { "restart networking":
-        command => "/etc/init.d/networking restart",
+        command => "service networking restart",
         path => $command_path,
         refreshonly => true,
     }
@@ -69,6 +69,9 @@ class neutron::configs {
 
         "/etc/neutron/fwaas_driver.ini":
             source => 'puppet:///files/neutron/etc/fwaas_driver.ini';
+
+        "/etc/neutron/metering_agent.ini":
+            source => 'puppet:///files/neutron/etc/metering_agent.ini';
 
         "/etc/neutron/services/loadbalancer/haproxy/lbaas_agent.ini":
             source => 'puppet:///files/neutron/etc/lbaas_agent.ini',

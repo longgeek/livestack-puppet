@@ -5,7 +5,7 @@ class cinder::configs {
 
         "/etc/cinder/rootwrap.d/volume.filters":
             source => 'puppet:///files/cinder/etc/rootwrap.d/volume.filters';
-
+            
         "/etc/cinder/policy.json":
             source => 'puppet:///files/cinder/etc/policy.json';
 

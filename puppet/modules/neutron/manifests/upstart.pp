@@ -18,6 +18,9 @@ class neutron::upstart {
         "/etc/init/neutron-lbaas-agent.conf":
             source => 'puppet:///files/neutron/init/neutron-lbaas-agent.conf';
 
+        "/etc/init/neutron-metering-agent.conf":
+            source => 'puppet:///files/neutron/init/neutron-metering-agent.conf';
+
         "/etc/init/neutron-server.conf":
             source => 'puppet:///files/neutron/init/neutron-server.conf',
     }
@@ -29,6 +32,7 @@ class neutron::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-server; \
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-vpn-agent; \
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-lbaas-agent; \
+                    ln -s /lib/init/upstart-job /etc/init.d/neutron-metering-agent; \
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-dhcp-agent; \
                     update-rc.d neutron-l3-agent defaults 88; \
                     update-rc.d neutron-metadata-agent defaults 89; \
@@ -36,6 +40,7 @@ class neutron::upstart {
                     update-rc.d neutron-dhcp-agent defaults 91; \
                     update-rc.d neutron-server defaults 92; \
                     update-rc.d neutron-vpn-agent defaults 93; \
+                    update-rc.d neutron-metering-agent defaults 93; \
                     update-rc.d neutron-lbaas-agent defaults 94",
         path => $command_path,
         unless => 'ls /etc/init.d/neutron-dhcp-agent',
