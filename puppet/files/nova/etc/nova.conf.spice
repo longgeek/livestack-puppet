@@ -611,7 +611,6 @@ novncproxy_port=6080
 # location of vnc console proxy, in the form
 # "http://127.0.0.1:6080/vnc_auto.html" (string value)
 #novncproxy_base_url=http://127.0.0.1:6080/vnc_auto.html
-novncproxy_base_url=http://127.0.0.1:6080/vnc_auto.html
 
 # location of nova xvp vnc console proxy, in the form
 # "http://127.0.0.1:6081/console" (string value)
@@ -620,16 +619,14 @@ novncproxy_base_url=http://127.0.0.1:6080/vnc_auto.html
 # IP address on which instance vncservers should listen
 # (string value)
 #vncserver_listen=127.0.0.1
-vncserver_listen=127.0.0.1
 
 # the address to which proxy clients (like nova-xvpvncproxy)
 # should connect (string value)
 #vncserver_proxyclient_address=127.0.0.1
-vncserver_proxyclient_address=127.0.0.1
 
 # enable vnc related features (boolean value)
 #vnc_enabled=true
-vnc_enabled=true
+vnc_enabled=false
 
 # keymap for vnc (string value)
 #vnc_keymap=en-us
@@ -3429,20 +3426,23 @@ topics=notifications
 # location of spice html5 console proxy, in the form
 # "http://127.0.0.1:6082/spice_auto.html" (string value)
 #html5proxy_base_url=http://127.0.0.1:6082/spice_auto.html
+html5proxy_base_url=http://192.168.8.242:6082/spice_auto.html
 
 # IP address on which instance spice server should listen
 # (string value)
 # server_listen=127.0.0.1
+server_listen=192.168.8.242
 
 # the address to which proxy clients (like nova-
 # spicehtml5proxy) should connect (string value)
 # server_proxyclient_address=127.0.0.1
+server_proxyclient_address=192.168.8.242
 
 # enable spice related features (boolean value)
-# enabled=false
+enabled=true
 
 # enable spice guest agent support (boolean value)
-#agent_enabled=true
+agent_enabled=true
 
 # keymap for spice (string value)
-#keymap=en-us
+keymap=en-us
