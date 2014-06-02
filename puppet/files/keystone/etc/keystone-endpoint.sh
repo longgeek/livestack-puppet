@@ -45,7 +45,7 @@ get_id () {
 ADMIN_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=admin)
 SERVICE_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=$SERVICE_TENANT_NAME)
 DEMO_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=demo)
-#TROVE_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=trove)
+TROVE_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=trove)
 #INVIS_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=invisible_to_admin)
 
 # Create Users
@@ -86,7 +86,7 @@ keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add
 HEAT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=heat --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=heat@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $HEAT_USER --role-id $ADMIN_ROLE
 
-TROVE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=trove --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=trove@localhost.com)
+TROVE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=trove --pass="$SERVICE_PASSWORD" --tenant-id $TROVE_TENANT --email=trove@localhost.com)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $TROVE_USER --role-id $ADMIN_ROLE
 
 ## Create Service

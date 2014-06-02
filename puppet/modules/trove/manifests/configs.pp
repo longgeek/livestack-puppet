@@ -18,10 +18,10 @@ class trove::configs {
         notify => Class['trove::tables', 'trove::services'],
     }
 
-#    file { "/etc/trove/trove-guestagent.conf":
-#        source => "puppet:///files/trove/etc/trove-guestagent.conf",
-#        notify => Class['trove::tables', 'trove::services'],
-#    }
+    file { "/etc/trove/trove-guestagent.conf":
+        source => "puppet:///files/trove/etc/trove-guestagent.conf",
+        notify => Class['trove::tables', 'trove::services'],
+    }
 
     file { "/etc/trove/trove-taskmanager.conf":
         source => "puppet:///files/trove/etc/trove-taskmanager.conf",
