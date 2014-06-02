@@ -33,22 +33,17 @@ class nova::configs {
         notify => Class["nova::tables", "nova::services"],
     }
 
-#    if $enable_neutron == 'True' {
-#        file { "/etc/nova/nova.conf":
-#            source => 'puppet:///files/nova/etc/nova.conf.neutron',
-#            notify => Class["nova::tables", "nova::services"],
-#        }
-#
-#    } else {
-#        file { "/etc/nova/nova.conf":
-#            source => 'puppet:///files/nova/etc/nova.conf',
-#            notify => Class["nova::tables", "nova::services"],
-#        }
-#    }
+    if $enable_spice == 'True' {
+        file { "/etc/nova/nova.conf":
+            source => 'puppet:///files/nova/etc/nova.conf.spice',
+            notify => Class["nova::tables", "nova::services"],
+        }
 
-    file { "/etc/nova/nova.conf":
-        source => 'puppet:///files/nova/etc/nova.conf',
-        notify => Class["nova::tables", "nova::services"],
+    } else {
+        file { "/etc/nova/nova.conf":
+            source => 'puppet:///files/nova/etc/nova.conf',
+            notify => Class["nova::tables", "nova::services"],
+        }
     }
 
     exec { "nbd module":
