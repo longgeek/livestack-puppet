@@ -58,7 +58,7 @@ Resources:
           Fn::Join:
           - ''
           - ["#!/bin/bash -v\n",
-              "/usr/local/bin/cfn-init\n",
+              "/opt/aws/bin/cfn-init\n",
               "sudo /etc/init.d/trove-guestagent restart\n"]
 {% if volume_support %}
   DataVolume:
