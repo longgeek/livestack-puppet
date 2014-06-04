@@ -2,10 +2,9 @@
 
 ## LiveStack
 change_vnc () {
-    for i in nova.conf nova.conf.neutron
+    for i in nova.conf nova.conf.spice
     do
         sed -i "s/^novncproxy_base_url.*$/novncproxy_base_url=http:\/\/$IPADDR:6080\/vnc_auto.html/g" /etc/puppet/files/nova/etc/$i
-        sed -i "s/^xvpvncproxy_base_url.*$/xvpvncproxy_base_url=http:\/\/$IPADDR:6081\/console/g" /etc/puppet/files/nova/etc/$i
     done
 }
 sed -i "s/server.*$/server=$(facter fqdn)/g" /etc/puppet/puppet.conf
@@ -19,4 +18,3 @@ if [ "$IPADDR" = "" ]; then
 else
     change_vnc
 fi
-
