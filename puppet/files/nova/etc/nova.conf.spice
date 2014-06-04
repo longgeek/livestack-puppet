@@ -620,12 +620,10 @@ novncproxy_base_url=http://192.168.8.242:6080/vnc_auto.html
 # IP address on which instance vncservers should listen
 # (string value)
 #vncserver_listen=127.0.0.1
-vncserver_listen=192.168.8.242
 
 # the address to which proxy clients (like nova-xvpvncproxy)
 # should connect (string value)
 #vncserver_proxyclient_address=127.0.0.1
-vncserver_proxyclient_address=192.168.8.242
 
 # enable vnc related features (boolean value)
 #vnc_enabled=true
@@ -3434,12 +3432,10 @@ html5proxy_base_url=http://192.168.8.242:6082/spice_auto.html
 # IP address on which instance spice server should listen
 # (string value)
 # server_listen=127.0.0.1
-server_listen=192.168.8.242
 
 # the address to which proxy clients (like nova-
 # spicehtml5proxy) should connect (string value)
 # server_proxyclient_address=127.0.0.1
-server_proxyclient_address=192.168.8.242
 
 # enable spice related features (boolean value)
 enabled=true
