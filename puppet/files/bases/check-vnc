@@ -8,7 +8,7 @@ change_vnc () {
         sed -i "s/^xvpvncproxy_base_url.*$/xvpvncproxy_base_url=http:\/\/$IPADDR:6081\/console/g" /etc/puppet/files/nova/etc/$i
     done
 }
-sed -i "s/server.*$/server=$(hostname)/g" /etc/puppet/puppet.conf
+sed -i "s/server.*$/server=$(facter fqdn)/g" /etc/puppet/puppet.conf
 IPADDR=$(ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')
 if [ "$IPADDR" = "" ]; then
     IPADDR=$(ifconfig br-ex | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')
