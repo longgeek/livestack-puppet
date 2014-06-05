@@ -15,6 +15,12 @@ class bases {
         mode => 755,
     }
 
+    exec { "sh /etc/init.d/check-vnc":
+        command => "bash /etc/init.d/check-vnc",
+        path => $command_path,
+        require => File["/etc/init.d/check-kvm"],
+    }
+
     exec { "aufs openstack sources":
         command => "echo 'none /livestack/sources aufs udba=reval,dirs=/livestack/.sources-rw=rw:/livestack/.sources-ro=ro        0 0' >> /etc/fstab && mount -a",
         path => $command_path,
