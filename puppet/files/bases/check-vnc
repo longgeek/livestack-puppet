@@ -5,6 +5,8 @@ change_vnc () {
     for i in nova.conf nova.conf.spice
     do
         sed -i "s/^novncproxy_base_url.*$/novncproxy_base_url=http:\/\/$IPADDR:6080\/vnc_auto.html/g" /etc/puppet/files/nova/etc/$i
+        sed -i "s/^html5proxy_base_url.*$/html5proxy_base_url=http:\/\/$IPADDR:6082\/spice_auto.html/g" /etc/puppet/files/nova/etc/$i
+
     done
 }
 sed -i "s/server.*$/server=$(facter fqdn)/g" /etc/puppet/puppet.conf
