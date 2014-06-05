@@ -1,13 +1,8 @@
 class bases {
     exec { "sh check-kvm":
-        command => "echo 'sh /etc/init.d/check-kvm' >> /etc/init.d/rc.local",
+        command => "echo 'sh /etc/init.d/check-kvm; sleep 5; sh /etc/init.d/check-vnc' >> /etc/init.d/rc.local",
         path => $command_path,
         unless => "grep 'sh /etc/init.d/check-kvm' /etc/init.d/rc.local",
-    }
-
-    file { "/etc/init.d/networking":
-        source => 'puppet:///files/bases/networking',
-        mode => 755,
     }
 
     file { "/etc/init.d/check-vnc":
