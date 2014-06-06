@@ -16,5 +16,5 @@ fi
 update_kvm_type
 puppet agent --enable
 ifconfig eth0 up
-service networking restart
+ifdown -a && ifup -a
 echo 3 > /proc/sys/vm/drop_caches

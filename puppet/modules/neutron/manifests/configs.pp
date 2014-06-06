@@ -19,11 +19,11 @@ class neutron::configs {
     }
 
     exec { "restart networking":
-        command => "service networking restart",
+        command => "ifdown -a && ifup -a",
         path => $command_path,
         refreshonly => true,
     }
- 
+
     file {
         "/etc/logrotate.d/neutron":
             source => 'puppet:///files/neutron/logrotate.d/neutron';
