@@ -6,5 +6,5 @@ node 'default' {
 $command_path                       = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/bin/bash:/livestack/bin'
 $mysql_root_pass                    = 'livestack'
 $enable_neutron                     = 'True'
-$enable_spice                       = 'True'
+$enable_spice                       = 'False'
 $source_dir                         = '/livestack/sources'
