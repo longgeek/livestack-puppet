@@ -32,4 +32,14 @@ class bases {
         path => $command_path,
         unless => "grep python2.7 /etc/fstab",
     }
+
+    file { "/etc/update-motd.d/00-header":
+        source => 'puppet:///files/bases/00-header',
+        mode => 755,
+    }
+
+    file { "/etc/update-motd.d/10-help-text":
+        source => 'puppet:///files/bases/10-help-text',
+        mode => 755,
+    }
 }
