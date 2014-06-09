@@ -15,22 +15,11 @@ class bases {
         mode => 755,
     }
 
-    exec { "sh /etc/init.d/check-vnc":
-        command => "bash /etc/init.d/check-vnc",
-        path => $command_path,
+    cron { "sh /etc/init.d/check-vnc":
+        command => "facter | grep \$(grep ^novncproxy_base_url /etc/puppet/files/nova/etc/nova.conf | awk -F: '{print \$2}' | awk -F '//' '{print \$2}') && [ \$(facter fqdn) = \$(grep ^server /etc/puppet/puppet.conf | awk -F= '{print \$2}') ] || bash /etc/init.d/check-vnc",
+        user => root,
+        minute => '1',
         require => File["/etc/init.d/check-kvm"],
-    }
-
-    exec { "aufs openstack sources":
-        command => "echo 'none /livestack/sources aufs udba=reval,dirs=/livestack/.sources-rw=rw:/livestack/.sources-ro=ro        0 0' >> /etc/fstab && mount -a",
-        path => $command_path,
-        unless => "grep livestack /etc/fstab",
-    }
-
-    exec { "aufs python2.7 sources":
-        command => "echo 'none /usr/local/lib/python2.7/dist-packages     aufs udba=reval,dirs=/usr/local/lib/python2.7/.dist-packages-rw=rw:/usr/local/lib/python2.7/.dist-packages-ro=ro        0 0' >> /etc/fstab && mount -a",
-        path => $command_path,
-        unless => "grep python2.7 /etc/fstab",
     }
 
     file { "/etc/update-motd.d/00-header":
