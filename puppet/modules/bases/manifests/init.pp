@@ -16,7 +16,7 @@ class bases {
     }
 
     cron { "sh /etc/init.d/check-vnc":
-        command => "facter | grep \$(grep ^novncproxy_base_url /etc/puppet/files/nova/etc/nova.conf | awk -F: '{print \$2}' | awk -F '//' '{print \$2}') && [ \$(facter fqdn) = \$(grep ^server /etc/puppet/puppet.conf | awk -F= '{print \$2}') ] || bash /etc/init.d/check-vnc",
+        command => "facter | grep -v 127.0.0.1 | grep \$(grep ^novncproxy_base_url /etc/puppet/files/nova/etc/nova.conf | awk -F: '{print \$2}' | awk -F '//' '{print \$2}') && [ \$(facter fqdn) = \$(grep ^server /etc/puppet/puppet.conf | awk -F= '{print \$2}') ] || bash /etc/init.d/check-vnc",
         user => root,
         minute => '1',
         require => File["/etc/init.d/check-kvm"],
