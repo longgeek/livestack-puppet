@@ -11,6 +11,6 @@ class trove::neutron {
         command => 'bash /etc/trove/modifi-neutron-id.sh',
         path => $command_path,
         require => File['/etc/trove/modifi-neutron-id.sh', '/etc/trove/check-neutron-id.sh'],
-        onlyif => 'bash /etc/trove/check-neutron-id.sh',
+        unless => 'bash /etc/trove/check-neutron-id.sh',
     }
 }
