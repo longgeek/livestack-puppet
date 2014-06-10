@@ -15,11 +15,11 @@ class bases {
         mode => 755,
     }
 
-    cron { "sh /etc/init.d/check-vnc":
-        command => "facter | grep -v 127.0.0.1 | grep \$(grep ^novncproxy_base_url /etc/puppet/files/nova/etc/nova.conf | awk -F: '{print \$2}' | awk -F '//' '{print \$2}') && [ \$(facter fqdn) = \$(grep ^server /etc/puppet/puppet.conf | awk -F= '{print \$2}') ] || bash /etc/init.d/check-vnc",
-        user => root,
-        minute => '1',
-        require => File["/etc/init.d/check-kvm"],
+    exec { "sh /etc/init.d/check-vnc":
+        command => 'sh /etc/init.d/check-vnc',
+        path => $command_path,
+        unless => "facter | grep -v 127.0.0.1 | grep $(grep ^novncproxy_base_url /etc/puppet/files/nova/etc/nova.conf | awk -F: '{print $2}' | awk -F '//' '{print $2}') && [ $(facter fqdn) = $(grep ^server /etc/puppet/puppet.conf | awk -F= '{print $2}') ]",
+        require => File["/etc/init.d/check-vnc"],
     }
 
     file { "/etc/update-motd.d/00-header":
