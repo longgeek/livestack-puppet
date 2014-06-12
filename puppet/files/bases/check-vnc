@@ -9,7 +9,14 @@ change_vnc () {
 
     done
 }
-sed -i "s/server.*$/server=$(facter fqdn)/g" /etc/puppet/puppet.conf
+
+if [ "$(facter fqdn)" = "" ]; then
+    server_name=$(facter hostname)
+else
+    server_name=$(facter fqdn)
+fi
+
+sed -i "s/server.*$/server=$server_name/g" /etc/puppet/puppet.conf
 IPADDR=$(ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')
 if [ "$IPADDR" = "" ]; then
     IPADDR=$(ifconfig br-ex | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')
