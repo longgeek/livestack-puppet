@@ -11,7 +11,7 @@ change_vnc () {
 }
 
 trove_template () {
-    for i in $(find /etc/trove/templates/ -name heat.template)
+    for i in $(find /etc/puppet/files/trove/etc/templates/ -name heat.template)
     do
         sed -i "s/change_me.*\/g/change_me\/$IPADDR\/g/g" $i
     done
