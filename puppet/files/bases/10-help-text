@@ -33,6 +33,7 @@ if uname -r | grep -qs "\-server"; then
 fi
 
 printf "\n * Documentation:  %s\n" "$URL"
+printf "                   %s\n" "http://www.thstack.com/"
 printf "                   %s\n" "http://www.livestack.org/"
 printf '
  m        "                   mmmm    m                  #                                    
