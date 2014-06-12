@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source /etc/profile
 network=$(neutron net-list | awk -F ' |' '{print $2}' | grep -Ev "(id|^$)")
 
 for i in $network
