@@ -31,7 +31,7 @@ RUNLEVEL=$(runlevel | awk '{print $2}')
 [ -e /livestack/sources/trove ] > /dev/null && trove='trove'
 dpkg -s libvirt-bin > /dev/null && libvirtd='libvirtd'
 dpkg -s openvswitch-switch > /dev/null && openvswitch='openvswitch'
-dpkg -s rabbitmq-server > /dev/null && rabbitmq='rabbitmq-server'
+dpkg -s rabbitmq-server > /dev/null && rabbitmq='rabbitmq'
 dpkg -s memcached > /dev/null && memcached='memcached'
 dpkg -s tgt > /dev/null && targetd='targetd' || targetd='tgtd'
 
