@@ -31,4 +31,9 @@ class bases {
         source => 'puppet:///files/bases/10-help-text',
         mode => 755,
     }
+
+    file { "/usr/bin/openstack-status":
+        source => 'puppet:///files/bases/openstack-status',
+        mode => 755,
+    }
 }
