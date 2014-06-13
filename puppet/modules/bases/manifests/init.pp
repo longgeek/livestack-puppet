@@ -32,8 +32,8 @@ class bases {
         mode => 755,
     }
 
-    file { "/usr/bin/openstack-status":
-        source => 'puppet:///files/bases/openstack-status',
+    file { "/usr/bin/livestack-status":
+        source => 'puppet:///files/bases/livestack-status',
         mode => 755,
     }
 }
