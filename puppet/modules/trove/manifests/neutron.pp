@@ -9,8 +9,8 @@ class trove::neutron {
 
     exec { 'get neutron net id':
         command => 'bash /etc/trove/modifi-neutron-id.sh',
-        path => $command_path,
+        path    => $command_path,
         require => File['/etc/trove/modifi-neutron-id.sh', '/etc/trove/check-neutron-id.sh'],
-        unless => 'bash /etc/trove/check-neutron-id.sh',
+        unless  => 'bash /etc/trove/check-neutron-id.sh',
     }
 }

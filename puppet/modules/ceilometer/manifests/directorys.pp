@@ -1,5 +1,5 @@
 class ceilometer::directorys {
-    file { ["/etc/ceilometer", "/var/log/ceilometer", "/var/lib/ceilometer"]:
+    file { ['/etc/ceilometer', '/var/log/ceilometer', '/var/lib/ceilometer']:
         ensure => directory,
     }
 }

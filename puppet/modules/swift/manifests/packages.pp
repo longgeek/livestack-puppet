@@ -1,5 +1,5 @@
 class swift::packages {
-    package { ["memcached", "xfsprogs"]:
+    package { ['memcached', 'xfsprogs']:
         ensure => installed,
     }
 }
