@@ -49,8 +49,8 @@ DEMO_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_E
 #INVIS_TENANT=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT tenant-create --name=invisible_to_admin)
 
 # Create Users
-ADMIN_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=admin --pass="$ADMIN_PASSWORD" --email=admin@thstack.com)
-DEMO_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=demo --pass="$ADMIN_PASSWORD" --email=demo@thstack.com)
+ADMIN_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=admin --pass="$ADMIN_PASSWORD" --email=admin@livestack.org)
+DEMO_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=demo --pass="$ADMIN_PASSWORD" --email=demo@livestack.org)
 
 # Create Roles
 ADMIN_ROLE=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT role-create --name=admin)
@@ -65,28 +65,28 @@ MEMBER_ROLE=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_E
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --user-id $DEMO_USER --role-id $MEMBER_ROLE --tenant-id $DEMO_TENANT
 
 # Configure service users/roles
-NOVA_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=nova --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=nova@thstack.com)
+NOVA_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=nova --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=nova@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $NOVA_USER --role-id $ADMIN_ROLE
 
-GLANCE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=glance --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=glance@thstack.com)
+GLANCE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=glance --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=glance@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $GLANCE_USER --role-id $ADMIN_ROLE
 
-SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@thstack.com)
+SWIFT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=swift --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=swift@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $SWIFT_USER --role-id $ADMIN_ROLE
 
-NEUTRON_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=neutron --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=neutron@thstack.com)
+NEUTRON_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=neutron --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=neutron@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $NEUTRON_USER --role-id $ADMIN_ROLE
-CINDER_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=cinder --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=cinder@thstack.com)
+CINDER_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=cinder --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=cinder@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $CINDER_USER --role-id $ADMIN_ROLE
 
-CEILOMETER_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=ceilometer --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=ceilometer@thstack.com)
+CEILOMETER_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=ceilometer --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=ceilometer@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $CEILOMETER_USER --role-id $RESELLER_ROLE
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $CEILOMETER_USER --role-id $ADMIN_ROLE
 
-HEAT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=heat --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=heat@thstack.com)
+HEAT_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=heat --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=heat@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $HEAT_USER --role-id $ADMIN_ROLE
 
-TROVE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=trove --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=trove@thstack.com)
+TROVE_USER=$(get_id keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-create --name=trove --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=trove@livestack.org)
 keystone --os-token $SERVICE_TOKEN --os-endpoint $SERVICE_ENDPOINT user-role-add --tenant-id $SERVICE_TENANT --user-id $TROVE_USER --role-id $ADMIN_ROLE
 
 ## Create Service
