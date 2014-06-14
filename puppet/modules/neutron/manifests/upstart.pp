@@ -34,14 +34,14 @@ class neutron::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-lbaas-agent; \
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-metering-agent; \
                     ln -s /lib/init/upstart-job /etc/init.d/neutron-dhcp-agent; \
-                    update-rc.d neutron-l3-agent defaults 88; \
-                    update-rc.d neutron-metadata-agent defaults 89; \
-                    update-rc.d neutron-openvswitch-agent defaults 90; \
-                    update-rc.d neutron-dhcp-agent defaults 91; \
-                    update-rc.d neutron-server defaults 92; \
-                    update-rc.d neutron-vpn-agent defaults 93; \
-                    update-rc.d neutron-metering-agent defaults 93; \
-                    update-rc.d neutron-lbaas-agent defaults 94',
+                    update-rc.d neutron-l3-agent defaults 50; \
+                    update-rc.d neutron-metadata-agent defaults 50; \
+                    update-rc.d neutron-openvswitch-agent defaults 50; \
+                    update-rc.d neutron-dhcp-agent defaults 50; \
+                    update-rc.d neutron-server defaults 50; \
+                    update-rc.d neutron-vpn-agent defaults 50; \
+                    update-rc.d neutron-metering-agent defaults 50; \
+                    update-rc.d neutron-lbaas-agent defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/neutron-dhcp-agent',
     }

@@ -6,7 +6,7 @@ class keystone::upstart {
 
     exec { 'update-rc.d keystone':
         command => 'ln -s /lib/init/upstart-job /etc/init.d/keystone; \
-                    update-rc.d keystone defaults 60',
+                    update-rc.d keystone defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/keystone',
     }

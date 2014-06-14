@@ -5,7 +5,7 @@ class savanna::upstart {
 
     exec { 'update-rc.d savanna':
         command => 'ln -s /lib/init/upstart-job /etc/init.d/savanna-api && \
-                    update-rc.d savanna-api defaults 79',
+                    update-rc.d savanna-api defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/savanna-api',
     }

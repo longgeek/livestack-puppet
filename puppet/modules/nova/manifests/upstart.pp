@@ -42,16 +42,16 @@ class nova::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/nova-xvpvncproxy && \
                     ln -s /lib/init/upstart-job /etc/init.d/nova-objectstore && \
                     ln -s /lib/init/upstart-job /etc/init.d/nova-spicehtml5proxy && \
-                    update-rc.d nova-api defaults 66 && \
-                    update-rc.d nova-cert defaults 67 && \
-                    update-rc.d nova-scheduler defaults 68 && \
-                    update-rc.d nova-conductor defaults 69 && \
-                    update-rc.d nova-compute defaults 70 && \
-                    update-rc.d nova-spicehtml5proxy defaults 70 && \
-                    update-rc.d nova-consoleauth defaults 71 && \
-                    update-rc.d nova-novncproxy defaults 72 && \
-                    update-rc.d nova-xvpvncproxy defaults 73 && \
-                    update-rc.d nova-objectstore defaults 74',
+                    update-rc.d nova-api defaults 50; \
+                    update-rc.d nova-cert defaults 50; \
+                    update-rc.d nova-scheduler defaults 50; \
+                    update-rc.d nova-conductor defaults 50; \
+                    update-rc.d nova-compute defaults 50; \
+                    update-rc.d nova-spicehtml5proxy defaults 50; \
+                    update-rc.d nova-consoleauth defaults 50; \
+                    update-rc.d nova-novncproxy defaults 50; \
+                    update-rc.d nova-xvpvncproxy defaults 50; \
+                    update-rc.d nova-objectstore defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/nova-objectstore',
     }

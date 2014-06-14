@@ -14,9 +14,9 @@ class cinder::upstart {
         command => 'ln -s /lib/init/upstart-job /etc/init.d/cinder-api; \
                     ln -s /lib/init/upstart-job /etc/init.d/cinder-scheduler; \
                     ln -s /lib/init/upstart-job /etc/init.d/cinder-volume; \
-                    update-rc.d cinder-api defaults 63; \
-                    update-rc.d cinder-scheduler defaults 64; \
-                    update-rc.d cinder-volume defaults 65',
+                    update-rc.d cinder-api defaults 50; \
+                    update-rc.d cinder-scheduler defaults 50; \
+                    update-rc.d cinder-volume defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/cinder-volume',
     }

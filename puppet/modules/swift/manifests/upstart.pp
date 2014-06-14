@@ -19,10 +19,10 @@ class swift::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/swift-account-server && \
                     ln -s /lib/init/upstart-job /etc/init.d/swift-container-server && \
                     ln -s /lib/init/upstart-job /etc/init.d/swift-object-server && \
-                    update-rc.d swift-proxy-server defaults 75; \
-                    update-rc.d swift-account-server defaults 76; \
-                    update-rc.d swift-container-server defaults 77; \
-                    update-rc.d swift-object-server defaults 78',
+                    update-rc.d swift-proxy-server defaults 50; \
+                    update-rc.d swift-account-server defaults 50; \
+                    update-rc.d swift-container-server defaults 50; \
+                    update-rc.d swift-object-server defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/swift-object-server',
     }

@@ -11,8 +11,8 @@ class glance::upstart {
     exec { 'update-rc.d glance':
         command => 'ln -s /lib/init/upstart-job /etc/init.d/glance-api; \
                     ln -s /lib/init/upstart-job /etc/init.d/glance-registry; \
-                    update-rc.d glance-api defaults 61; \
-                    update-rc.d glance-registry defaults 62',
+                    update-rc.d glance-api defaults 50; \
+                    update-rc.d glance-registry defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/glance-registry',
     }

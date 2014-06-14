@@ -22,11 +22,11 @@ class ceilometer::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-agent-central; \
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-agent-notification; \
                     ln -s /lib/init/upstart-job /etc/init.d/ceilometer-agent-compute; \
-                    update-rc.d ceilometer-api defaults 80; \
-                    update-rc.d ceilometer-collector defaults 81; \
-                    update-rc.d ceilometer-agent-central defaults 82; \
-                    update-rc.d ceilometer-agent-notification defaults 82; \
-                    update-rc.d ceilometer-agent-compute defaults 83',
+                    update-rc.d ceilometer-api defaults 50; \
+                    update-rc.d ceilometer-collector defaults 50; \
+                    update-rc.d ceilometer-agent-central defaults 50; \
+                    update-rc.d ceilometer-agent-notification defaults 50; \
+                    update-rc.d ceilometer-agent-compute defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/ceilometer-agent-compute',
     }

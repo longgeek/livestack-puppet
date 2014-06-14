@@ -18,10 +18,10 @@ class heat::upstart {
                     ln -s /lib/init/upstart-job /etc/init.d/heat-api-cfn; \
                     ln -s /lib/init/upstart-job /etc/init.d/heat-api-cloudwatch; \
                     ln -s /lib/init/upstart-job /etc/init.d/heat-engine; \
-                    update-rc.d heat-api defaults 84; \
-                    update-rc.d heat-api-cfn defaults 85; \
-                    update-rc.d heat-api-cloudwatch defaults 86; \
-                    update-rc.d heat-engine defaults 87',
+                    update-rc.d heat-api defaults 50; \
+                    update-rc.d heat-api-cfn defaults 50; \
+                    update-rc.d heat-api-cloudwatch defaults 50; \
+                    update-rc.d heat-engine defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/heat-engine',
     }
