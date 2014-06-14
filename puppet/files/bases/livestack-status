@@ -29,14 +29,19 @@ RUNLEVEL=$(runlevel | awk '{print $2}')
 [ -e /livestack/sources/heat ] > /dev/null && heat='heat'
 [ -e /livestack/sources/sahara ] > /dev/null && sahara='sahara'
 [ -e /livestack/sources/trove ] > /dev/null && trove='trove'
-dpkg -s libvirt-bin > /dev/null && libvirtd='libvirtd'
-dpkg -s openvswitch-switch > /dev/null && openvswitch='openvswitch'
-dpkg -s rabbitmq-server > /dev/null && rabbitmq='rabbitmq'
+dpkg -s mysql-server > /dev/null && mysql='mysql-server'
+dpkg -s libvirt-bin > /dev/null && libvirtd='libvirt-bin'
+dpkg -s openvswitch-switch > /dev/null && openvswitch='openvswitch-switch'
+dpkg -s rabbitmq-server > /dev/null && rabbitmq='rabbitmq-server'
 dpkg -s memcached > /dev/null && memcached='memcached'
 dpkg -s tgt > /dev/null && targetd='targetd' || targetd='tgtd'
 
 service_enabled() {
-  [ -e /etc/rc$RUNLEVEL.d/S*$1 ]
+  if [ "$1" = 'mysql-server' ]; then
+    [ -e /etc/rc$RUNLEVEL.d/S*mysql ]
+  else
+    [ -e /etc/rc$RUNLEVEL.d/S*$1 ]
+  fi
 }
 
 lsb_to_string() {
@@ -54,7 +59,21 @@ check_svc() {
   printf '%-40s' "$1:"
 
   bootstatus=$(service_enabled $1 && echo enabled || echo disabled)
-  status=$(ps aux | grep $1 | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  if [ "$1" = 'mysql-server' ]; then
+    status=$(ps aux | grep mysqld | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  elif [ "$1" = 'rabbitmq-server' ]; then
+    status=$(ps aux | grep rabbitmq | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  elif [ "$1" = 'openvswitch-switch' ]; then
+    status=$(ps aux | grep ovs-vswitchd | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  elif [ "$1" = 'libvirt-bin' ]; then
+    status=$(ps aux | grep `which libvirtd` | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  elif [ "$1" = 'puppet' ]; then
+    status=$(ps aux | grep 'puppet agent' | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  elif [ "$1" = 'puppetmaster' ]; then
+    status=$(ps aux | grep 'puppet master' | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  else
+    status=$(ps aux | grep $1 | grep -v grep >/dev/null 2>/dev/null ; lsb_to_string $?)
+  fi
 
   if [ "$bootstatus" = 'disabled' ]; then
     bootstatus='(disabled on boot)'
@@ -70,7 +89,7 @@ check_svc() {
 
 if test "$nova"; then
   printf "== Nova services ==\n"
-  for svc in api cert compute scheduler conductor; do check_svc "nova-$svc"; done
+  for svc in api cert compute scheduler conductor consoleauth novncproxy objectstore spicehtml5proxy xvpvncproxy; do check_svc "nova-$svc"; done
 fi
 
 if test "$glance"; then
@@ -143,7 +162,7 @@ if test "$trove"; then
 fi
 
 printf "== Support services ==\n"
-for svc in $mysqld $libvirtd $openvswitch $tgtd $rabbitmq $memcached; do
+for svc in $mysql $libvirtd $openvswitch $tgtd $rabbitmq $memcached puppet puppetmaster; do
   check_svc "$svc"
 done
 

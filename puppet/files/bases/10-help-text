@@ -32,9 +32,11 @@ if uname -r | grep -qs "\-server"; then
 	URL="https://help.ubuntu.com/$DISTRIB_RELEASE/serverguide/C"
 fi
 
-printf "\n * Documentation:  %s\n" "$URL"
-printf "                   %s\n" "http://www.thstack.com/"
-printf "                   %s\n" "http://www.livestack.org/"
+printf "\n * Author:         %s\n" "Longgeek <longgeek@thstack.com>"
+printf " * Company:        %s\n" "http://www.thstack.com/"
+printf " * WebSite:        %s\n" "http://www.livestack.org/"
+printf " * Documentation:  %s\n" "$URL"
+printf "                   %s\n" "https://www.openstack.org/"
 printf '
  m        "                   mmmm    m                  #                                    
  #      mmm    m   m   mmm   #"   " mm#mm   mmm    mmm   #   m          mmm    m mm   mmmm    
@@ -42,5 +44,6 @@ printf '
  #        #     #m#   #""""      "#   #    m"""#  #      #"#           #   #   #     #   #    
  #mmmmm mm#mm    #    "#mm"  "mmm#"   "mm  "mm"#  "#mm"  #  "m    #    "#m#"   #     "#m"#    
                                                                                       m  #   
-                                                                                       ""  
-'
+                                                                                       ""  '
+printf "\n * Use the livestack-status command to check
+ * the OpenStack status of the projects!\n"
