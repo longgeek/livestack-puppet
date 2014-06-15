@@ -200,3 +200,34 @@ if test "$nova"; then
     nova list # instances
   fi
 fi
+
+if test "$keystonerc" && test "$cinder"; then
+  printf "== Cinder volumes ==\n"
+  cinder list
+fi
+
+if test "$keystonerc" && test "$trove"; then
+  printf "== Trove datastores  ==\n"
+  trove list
+fi
+
+if test "$keystonerc" && test "$heat"; then
+  printf "== Heat stacks ==\n"
+  heat stack-list
+fi
+
+if test "$keystonerc" && test "$neutron"; then
+  printf "== Neutron agents ==\n"
+  neutron agent-list 2> /dev/null
+fi
+
+if test "$keystonerc" && test "$swift"; then
+  printf "== Swift datas ==\n"
+  swift list --lh
+fi
+
+if test "$keystonerc" && test "$ceilometer"; then
+  printf "== Ceilometer meters ==\n"
+  ceilometer meter-list
+fi
+
