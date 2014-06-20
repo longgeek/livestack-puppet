@@ -27,15 +27,15 @@ KEYSTONE_REGION=RegionOne
 # If you need to provide the service, please to open keystone_wlan_ip and swift_wlan_ip
 # of course you are a multi-node architecture, and swift service
 # corresponding ip address set the following variables
-KEYSTONE_IP="localhost"
-SWIFT_IP="localhost"
-COMPUTE_IP="localhost"
-EC2_IP="localhost"
-GLANCE_IP="localhost"
-VOLUME_IP="localhost"
-CEILOMETER_IP="localhost"
-HEAT_IP="localhost"
-TROVE_IP="localhost"
+KEYSTONE_IP="0.0.0.0"
+SWIFT_IP="0.0.0.0"
+COMPUTE_IP="0.0.0.0"
+EC2_IP="0.0.0.0"
+GLANCE_IP="0.0.0.0"
+VOLUME_IP="0.0.0.0"
+CEILOMETER_IP="0.0.0.0"
+HEAT_IP="0.0.0.0"
+TROVE_IP="0.0.0.0"
 
 get_id () {
     echo `$@ | awk '/ id / { print $4 }'`
