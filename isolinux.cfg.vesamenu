@@ -18,7 +18,5 @@ label Install LiveStack OS!
 
 label Local Hard Disk!
   menu label Local Hard Disk!
-  localboot 0x80
+  localboot 0xffff
   append -
-
-
