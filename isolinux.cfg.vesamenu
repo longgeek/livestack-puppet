@@ -1,0 +1,24 @@
+default vesamenu.c32
+prompt 0
+timeout 300
+
+menu title Welcome to LiveStack OS!
+menu background splash.png
+menu color title 1;37;44 #c0ffffff #00000000 std
+
+label Boot LiveStack OS!
+  menu label Boot LiveStack OS!
+  kernel /casper/vmlinuz
+  append  file=/cdrom/preseed/custom.seed boot=casper initrd=/casper/initrd.gz quiet splash --
+
+label Install LiveStack OS!
+  menu label Install LiveStack OS!
+  kernel /casper/vmlinuz
+  append  file=/cdrom/preseed/custom.seed boot=casper only-ubiquity initrd=/casper/initrd.gz quiet splash --
+
+label Local Hard Disk!
+  menu label Local Hard Disk!
+  localboot 0x80
+  append -
+
+
