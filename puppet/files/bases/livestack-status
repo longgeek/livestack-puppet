@@ -38,7 +38,7 @@ dpkg -s tgt > /dev/null && targetd='targetd' || targetd='tgtd'
 
 service_enabled() {
   if [ "$1" = 'mysql-server' ]; then
-    [ -e /etc/rc$RUNLEVEL.d/S*mysql ]
+    grep '^start on runlevel' /etc/init/mysql.conf | grep $RUNLEVEL > /dev/null 2>&1
   else
     [ -e /etc/rc$RUNLEVEL.d/S*$1 ]
   fi
