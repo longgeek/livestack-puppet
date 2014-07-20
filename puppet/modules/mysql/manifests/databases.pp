@@ -60,7 +60,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on heat.* to 'heat'@'localhost' identified by 'heat';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep heat",
-        notify  => Class['mysql::services'],
+        notify  => exec['create trove db'],
     }
 
     exec { 'create trove db':
