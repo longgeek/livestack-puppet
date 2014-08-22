@@ -8,5 +8,6 @@ class nova::packages {
         enable     => true,
         hasstatus  => true,
         hasrestart => true,
+        require    => Package['libvirt-bin'],
     }
 }

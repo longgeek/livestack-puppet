@@ -1,7 +1,6 @@
 class keystone::upstart {
     file { '/etc/init/keystone.conf':
         source => 'puppet:///files/keystone/init/keystone.conf',
-        notify => Exec['update-rc.d keystone'],
     }
 
     exec { 'update-rc.d keystone':
@@ -9,5 +8,6 @@ class keystone::upstart {
                     update-rc.d keystone defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/keystone',
+        require => File['/etc/init/keystone.conf'],
     }
 }

@@ -19,17 +19,20 @@ class trove::configs {
     }
 
     file { '/etc/trove/trove-taskmanager.conf':
-        source => 'puppet:///files/trove/etc/trove-taskmanager.conf',
-        notify => Class['trove::tables', 'trove::services'],
+        source  => 'puppet:///files/trove/etc/trove-taskmanager.conf',
+        notify  => Class['trove::tables', 'trove::services'],
+        require => File['/etc/trove/api-paste.ini'],
     }
 
     file { '/etc/trove/trove-conductor.conf':
-        source => 'puppet:///files/trove/etc/trove-conductor.conf',
-        notify => Class['trove::tables', 'trove::services'],
+        source  => 'puppet:///files/trove/etc/trove-conductor.conf',
+        notify  => Class['trove::tables', 'trove::services'],
+        require => File['/etc/trove/trove-taskmanager.conf'],
     }
 
     file { '/etc/trove/trove.conf':
-        source => 'puppet:///files/trove/etc/trove.conf',
-        notify => Class['trove::tables', 'trove::services'],
+        source  => 'puppet:///files/trove/etc/trove.conf',
+        notify  => Class['trove::tables', 'trove::services'],
+        require => File['/etc/trove/trove-conductor.conf'],
     }
 }

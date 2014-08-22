@@ -1,17 +1,16 @@
 class trove::upstart {
     file { '/etc/init/trove-api.conf':
         source => 'puppet:///files/trove/init/trove-api.conf',
-        notify => Exec['update-rc.d trove'],
     }
 
     file { '/etc/init/trove-conductor.conf':
-        source => 'puppet:///files/trove/init/trove-conductor.conf',
-        notify => Exec['update-rc.d trove'],
+        source  => 'puppet:///files/trove/init/trove-conductor.conf',
+        require => File['/etc/init/trove-api.conf'],
     }
 
     file { '/etc/init/trove-taskmanager.conf':
         source => 'puppet:///files/trove/init/trove-taskmanager.conf',
-        notify => Exec['update-rc.d trove'],
+        require => File['/etc/init/trove-conductor.conf'],
     }
 
     exec { 'update-rc.d trove':
@@ -23,5 +22,6 @@ class trove::upstart {
                     update-rc.d trove-taskmanager defaults 50',
         path    => $command_path,
         unless  => 'ls /etc/init.d/trove-taskmanager',
+        require => File['/etc/init/trove-taskmanager.conf'],
     }
 }

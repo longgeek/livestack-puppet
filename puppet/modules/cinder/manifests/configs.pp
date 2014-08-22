@@ -19,7 +19,8 @@ class cinder::configs {
     }
 
     file { '/etc/cinder/api-paste.ini':
-        source => 'puppet:///files/cinder/etc/api-paste.ini',
-        notify => Class['cinder::tables', 'cinder::services'],
+        source  => 'puppet:///files/cinder/etc/api-paste.ini',
+        notify  => Class['cinder::tables', 'cinder::services'],
+        require => File['/etc/cinder/cinder.conf'],
     }
 }

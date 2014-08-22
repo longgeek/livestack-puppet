@@ -59,7 +59,7 @@ Resources:
           - ''
           - ["#!/bin/bash -v\n",
               "/opt/aws/bin/cfn-init\n",
-              "sudo sed -i 's/change_me/192.168.8.242/g' /etc/trove/trove-guestagent.conf\n",
+              "sudo sed -i 's/change_me/192.168.3.167/g' /etc/trove/trove-guestagent.conf\n",
               "sudo /etc/init.d/trove-guestagent restart\n"]
 {% if volume_support %}
   DataVolume:

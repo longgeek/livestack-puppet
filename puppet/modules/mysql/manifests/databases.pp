@@ -4,7 +4,6 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on keystone.* to 'keystone'@'localhost' identified by 'keystone';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep keystone",
-        notify  => Exec['create glance db'],
     }
 
     exec { 'create glance db':
@@ -12,7 +11,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on glance.* to 'glance'@'localhost' identified by 'glance';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep glance",
-        notify  => Exec['create cinder db'],
+        require => Exec['create keystone db'],
     }
 
     exec { 'create cinder db':
@@ -20,7 +19,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on cinder.* to 'cinder'@'localhost' identified by 'cinder';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep cinder",
-        notify  => Exec['create nova db'],
+        require => Exec['create glance db'],
     }
 
     exec { 'create nova db':
@@ -28,7 +27,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on nova.* to 'nova'@'localhost' identified by 'nova';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep nova",
-        notify  => Exec['create neutron db'],
+        require => Exec['create cinder db'],
     }
 
     exec { 'create neutron db':
@@ -36,7 +35,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on neutron.* to 'neutron'@'localhost' identified by 'neutron';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep neutron",
-        notify  => Exec['create ceilometer db'],
+        require => Exec['create nova db'],
     }
 
     exec { 'create ceilometer db':
@@ -44,7 +43,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on ceilometer.* to 'ceilometer'@'localhost' identified by 'ceilometer';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep ceilometer",
-        notify  => Exec['create savanna db'],
+        require => Exec['create neutron db'],
     }
 
     exec { 'create savanna db':
@@ -52,7 +51,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on savanna.* to 'savanna'@'localhost' identified by 'savanna';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep savanna",
-        notify  => Exec['create heat db'],
+        require => Exec['create ceilometer db'],
     }
 
     exec { 'create heat db':
@@ -60,7 +59,7 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on heat.* to 'heat'@'localhost' identified by 'heat';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep heat",
-        notify  => exec['create trove db'],
+        require => Exec['create savanna db'],
     }
 
     exec { 'create trove db':
@@ -68,5 +67,6 @@ class mysql::databases {
                     mysql -uroot -p$mysql_root_pass -e \"grant all on trove.* to 'trove'@'localhost' identified by 'trove';\"",
         path    => $command_path,
         unless  => "mysqlshow -uroot -p$mysql_root_pass | grep trove",
+        require => Exec['create heat db'],
     }
 }

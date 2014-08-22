@@ -10,18 +10,19 @@ class neutron::configs {
                     ovs-vsctl add-port br-ex eth0',
         path    => $command_path,
         unless  => 'ovs-vsctl list-br | grep br-ex',
-        notify  => File['/etc/network/interfaces'],
+        require => Exec['create br'],
     }
 
     file { '/etc/network/interfaces':
-        source => 'puppet:///files/neutron/etc/interfaces',
-        notify => Exec['restart networking'],
+        source  => 'puppet:///files/neutron/etc/interfaces',
+        require => Exec['create br-ex'],
     }
 
     exec { 'restart networking':
         command     => 'ifdown -a && ifup -a',
         path        => $command_path,
         refreshonly => true,
+        require     => File['/etc/network/interfaces'],
     }
 
     file {
@@ -83,22 +84,26 @@ class neutron::configs {
     }
 
     file { '/etc/neutron/dhcp_agent.ini':
-        source => 'puppet:///files/neutron/etc/dhcp_agent.ini',
-        notify => Class['neutron::services'],
+        source  => 'puppet:///files/neutron/etc/dhcp_agent.ini',
+        notify  => Class['neutron::services'],
+        require => File['/etc/neutron/neutron.conf'],
     }
 
     file { '/etc/neutron/l3_agent.ini':
-        source => 'puppet:///files/neutron/etc/l3_agent.ini',
-        notify => Class['neutron::services'],
+        source  => 'puppet:///files/neutron/etc/l3_agent.ini',
+        notify  => Class['neutron::services'],
+        require => File['/etc/neutron/dhcp_agent.ini'],
     }
 
     file { '/etc/neutron/metadata_agent.ini':
-        source => 'puppet:///files/neutron/etc/metadata_agent.ini',
-        notify => Class['neutron::services'],
+        source  => 'puppet:///files/neutron/etc/metadata_agent.ini',
+        notify  => Class['neutron::services'],
+        require => File['/etc/neutron/l3_agent.ini'],
     }
 
     file { '/etc/neutron/plugins/ml2/ml2_conf.ini':
-        source => 'puppet:///files/neutron/etc/plugins/ml2/ml2_conf.ini',
-        notify => Class['neutron::services'],
+        source  => 'puppet:///files/neutron/etc/plugins/ml2/ml2_conf.ini',
+        notify  => Class['neutron::services'],
+        require => File['/etc/neutron/metadata_agent.ini'],
     }
 }

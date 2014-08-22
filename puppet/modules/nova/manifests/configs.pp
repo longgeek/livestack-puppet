@@ -35,14 +35,16 @@ class nova::configs {
 
     if $enable_spice == 'True' {
         file { '/etc/nova/nova.conf':
-            source => 'puppet:///files/nova/etc/nova.conf.spice',
-            notify => Class['nova::tables', 'nova::services'],
+            source  => 'puppet:///files/nova/etc/nova.conf.spice',
+            require => File['/etc/nova/api-paste.ini'],
+            notify  => Class['nova::tables', 'nova::services'],
         }
 
     } else {
         file { '/etc/nova/nova.conf':
-            source => 'puppet:///files/nova/etc/nova.conf',
-            notify => Class['nova::tables', 'nova::services'],
+            source  => 'puppet:///files/nova/etc/nova.conf',
+            require => File['/etc/nova/api-paste.ini'],
+            notify  => Class['nova::tables', 'nova::services'],
         }
     }
 
@@ -50,5 +52,6 @@ class nova::configs {
         command => 'echo nbd >> /etc/modules && modprobe nbd',
         path    => $command_path,
         unless  => 'grep nbd /etc/modules',
+        require => File['/etc/nova/nova.conf'],
     }
 }

@@ -6,13 +6,15 @@ class bases {
     }
 
     file { '/etc/init.d/check-vnc':
-        source => 'puppet:///files/bases/check-vnc',
-        mode   => 755,
+        source  => 'puppet:///files/bases/check-vnc',
+        mode    => 755,
+        require => Exec['sh check-kvm'],
     }
 
     file { '/etc/init.d/check-kvm':
-        source => 'puppet:///files/bases/check-kvm',
-        mode   => 755,
+        source  => 'puppet:///files/bases/check-kvm',
+        mode    => 755,
+        require => File['/etc/init.d/check-vnc'],
     }
 
     exec { 'sh /etc/init.d/check-vnc':
@@ -23,17 +25,20 @@ class bases {
     }
 
     file { '/etc/update-motd.d/00-header':
-        source => 'puppet:///files/bases/00-header',
-        mode   => 755,
+        source  => 'puppet:///files/bases/00-header',
+        mode    => 755,
+        require => Exec['sh /etc/init.d/check-vnc'],
     }
 
     file { '/etc/update-motd.d/10-help-text':
-        source => 'puppet:///files/bases/10-help-text',
-        mode   => 755,
+        source  => 'puppet:///files/bases/10-help-text',
+        mode    => 755,
+        require => File['/etc/update-motd.d/00-header'],
     }
 
     file { '/usr/bin/livestack-status':
-        source => 'puppet:///files/bases/livestack-status',
-        mode   => 755,
+        source  => 'puppet:///files/bases/livestack-status',
+        mode    => 755,
+        require => File['/etc/update-motd.d/10-help-text'],
     }
 }

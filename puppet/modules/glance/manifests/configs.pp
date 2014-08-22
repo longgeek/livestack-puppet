@@ -25,7 +25,8 @@ class glance::configs {
     }
 
     file {'/etc/glance/glance-registry.conf':
-        source => 'puppet:///files/glance/etc/glance-registry.conf',
-        notify => Class['glance::tables', 'glance::services'],
+        source  => 'puppet:///files/glance/etc/glance-registry.conf',
+        notify  => Class['glance::tables', 'glance::services'],
+        require => File['/etc/glance/glance-api.conf'],
     }
 }

@@ -4,7 +4,8 @@ class trove::neutron {
     }
 
     file { '/etc/trove/check-neutron-id.sh':
-        source => 'puppet:///files/trove/etc/check-neutron-id.sh',
+        source  => 'puppet:///files/trove/etc/check-neutron-id.sh',
+        require => File['/etc/trove/modifi-neutron-id.sh'],
     }
 
     exec { 'get neutron net id':

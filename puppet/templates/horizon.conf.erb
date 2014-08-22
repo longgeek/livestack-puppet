@@ -1,3 +1,5 @@
+LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so
+
 <VirtualHost *:80>
     WSGIScriptAlias / <%= source_dir %>/horizon/openstack_dashboard/wsgi/django.wsgi
     WSGIDaemonProcess horizon user=www-data group=www-data processes=3 threads=10 home=<%= source_dir %>/horizon
