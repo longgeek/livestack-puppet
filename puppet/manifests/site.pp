@@ -1,5 +1,5 @@
 node 'default' {
-#    Class['bases'] -> Class['mysql'] -> Class['rabbitmq'] -> Class['keystone'] -> Class['glance'] -> Class['cinder'] -> Class['nova'] -> Class['horizon'] -> Class['swift'] -> Class['ceilometer'] -> Class['heat'] -> Class['neutron'] -> Class['trove']
+    Class['bases'] -> Class['mysql'] -> Class['rabbitmq'] -> Class['keystone'] -> Class['glance'] -> Class['cinder'] -> Class['nova'] -> Class['horizon'] -> Class['swift'] -> Class['ceilometer'] -> Class['heat'] -> Class['neutron'] -> Class['trove']
     include bases, mysql, rabbitmq, keystone, glance, cinder, nova, horizon, swift, ceilometer, heat, neutron, trove
 }
 
